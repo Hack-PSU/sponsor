@@ -14,10 +14,22 @@ export default function AuthGuard({ children }: AuthGuardProps) {
 	useEffect(() => {
 		if (isLoading) return;
 
-		// allow access to / and /auth without authentication
-		if (!isAuthenticated && (pathname === "/" || pathname === "/login")) {
-			return;
+/* 		// If not logged in and trying to access any page except /auth, redirect to /auth
+		if (!isAuthenticated && pathname !== "/auth") {
+			router.replace("/auth");
 		}
+
+		// If already logged in and on /auth, redirect to home
+		if (isAuthenticated && pathname === "/auth") {
+			router.replace("/scan");
+		}
+
+		// If already logged in and on /, redirect to /scan
+		if (isAuthenticated && pathname === "/") {
+			router.replace("/scan");
+		} */
+
+			return
 	}, [isLoading, isAuthenticated, pathname, router]);
 
 	if (isLoading) {
