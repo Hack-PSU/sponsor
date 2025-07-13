@@ -24,7 +24,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
 		return null;
 	}
 
-	if (isAuthenticated || pathname === "/auth") {
+	if (isAuthenticated || pathname === "/login") {
 		return <>{children}</>;
 	}
 

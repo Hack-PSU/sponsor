@@ -34,7 +34,7 @@ export default function AuthScreen() {
 
 	useEffect(() => {
 		if (isAuthenticated) {
-			router.replace("/dashboard");
+			router.replace("/home");
 		}
 	}, [isAuthenticated, router]);
 
