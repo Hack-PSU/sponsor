@@ -11,23 +11,29 @@ export default function AuthGuard({ children }: AuthGuardProps) {
 	const pathname = usePathname();
 	const { isLoading, isAuthenticated } = useFirebase();
 
+	// Always run this hook; only redirect if on a protected route
 	useEffect(() => {
-		if (isLoading) return;
-
-		// allow access to / and /auth without authentication
-		if (!isAuthenticated && (pathname === "/" || pathname === "/login")) {
-			return;
+		const isPublicRoute = pathname === "/" || pathname === "/login";
+		if (!isLoading && !isAuthenticated && !isPublicRoute) {
+			router.push("/login");
 		}
-	}, [isLoading, isAuthenticated, pathname, router]);
+	}, [pathname, isLoading, isAuthenticated, router]);
 
+	// Public routes are always accessible
+	if (pathname === "/" || pathname === "/login") {
+		return <>{children}</>;
+	}
+
+	// While we're checking auth status, show nothing (or a loader)
 	if (isLoading) {
 		return null;
 	}
 
-	if (isAuthenticated || pathname === "/login") {
-		return <>{children}</>;
+	// If not authenticated, don’t render protected content
+	if (!isAuthenticated) {
+		return null;
 	}
 
-	// Otherwise, nothing (redirect is in flight)
-	return null;
+	// Authenticated & not on a public route → render the protected children
+	return <>{children}</>;
 }

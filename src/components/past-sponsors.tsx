@@ -73,7 +73,7 @@ const LogoCard = ({ src, name }: { src: string; name: string }) => (
 );
 
 export function PastSponsors() {
-/* 	const firstRow = logos.slice(0, logos.length / 3);
+	/* 	const firstRow = logos.slice(0, logos.length / 3);
 	const secondRow = logos.slice(logos.length / 3, (logos.length / 3) * 2);
 	const thirdRow = logos.slice((logos.length / 3) * 2); */
 
