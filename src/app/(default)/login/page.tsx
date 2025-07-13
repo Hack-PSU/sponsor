@@ -182,7 +182,7 @@ export default function AuthScreen() {
 
 				<div className="px-6 pb-6 text-center">
 					<p className="text-sm text-muted-foreground">
-						Made with ❤️ in Hacky Valley at 3 am last night
+						Made with ❤️ in Hacky Valley
 					</p>
 				</div>
 			</Card>

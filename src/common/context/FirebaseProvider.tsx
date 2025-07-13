@@ -237,7 +237,7 @@ const FirebaseProvider: FC<Props> = ({ children, auth }) => {
 	}, [auth]);
 
 	const actionCodeSettings = {
-		url: "https://checkin.hackpsu.org/auth",
+		url: "https://sponsor.hackpsu.org/login",
 		handleCodeInApp: true,
 	};
 	// Send a password reset email.

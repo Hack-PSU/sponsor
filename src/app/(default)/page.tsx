@@ -19,6 +19,7 @@ import { SponsorshipTiers } from "@/components/sponsorship-tiers";
 import { Testimonials } from "@/components/testimonials";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { PastSponsors } from "@/components/past-sponsors";
+import { ContactForm } from "@/components/contact-form";
 
 export default function SponsorsPage() {
 	return (
@@ -43,7 +44,7 @@ export default function SponsorsPage() {
 								<Link href="#contact">Become a Sponsor</Link>
 							</Button>
 							<Button asChild size="lg" variant="outline">
-								<Link href="#prospectus">
+								<Link href="HackPSU_Sponsorship_Packet.pdf" download>
 									<Download className="mr-2 h-5 w-5" />
 									Download Prospectus
 								</Link>
@@ -186,14 +187,15 @@ export default function SponsorsPage() {
 				</section>
 
 				{/* Testimonials Section */}
-				<section id="testimonials" className="py-16 md:py-24 bg-muted/20">
+
+				{/* 				<section id="testimonials" className="py-16 md:py-24 bg-muted/20">
 					<div className="container mx-auto px-4 md:px-6">
 						<h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-accent">
 							What Our Sponsors Say
 						</h2>
 						<Testimonials />
 					</div>
-				</section>
+				</section> */}
 
 				{/* Past Sponsors Section */}
 				<section id="past-sponsors" className="py-16 md:py-24">
@@ -234,7 +236,7 @@ export default function SponsorsPage() {
 								variant="secondary"
 								className="flex-shrink-0 bg-white text-accent hover:bg-white/90"
 							>
-								<Link href="/hackpsu-prospectus.pdf" download>
+								<Link href="/HackPSU_Sponsorship_Packet.pdf" download>
 									<Download className="mr-2 h-5 w-5" />
 									Download Prospectus
 								</Link>
@@ -254,22 +256,7 @@ export default function SponsorsPage() {
 								Have questions or want to discuss a custom partnership? We'd
 								love to hear from you.
 							</p>
-							<form className="grid grid-cols-1 gap-6">
-								<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-									<Input placeholder="Your Name" />
-									<Input type="email" placeholder="Your Email" />
-								</div>
-								<Input placeholder="Company Name" />
-								<Textarea placeholder="Your Message" rows={5} />
-								<Button
-									type="submit"
-									size="lg"
-									className="w-full bg-gradient-to-b from-primary via-primary to-orange-600 shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/40"
-								>
-									<Mail className="mr-2 h-5 w-5" />
-									Send Message
-								</Button>
-							</form>
+							<ContactForm />
 						</div>
 					</div>
 				</section>

@@ -1,8 +1,6 @@
 import { DashboardNavbar } from "@/components/dashboard-navbar";
-import { Footer } from "@/components/footer";
-import { Navbar } from "@/components/navbar";
 
-export default function DefaultLayout({
+export default function DashboardLayout({
 	children,
 }: {
 	children: React.ReactNode;
@@ -10,9 +8,8 @@ export default function DefaultLayout({
 	return (
 		<>
 			{" "}
-			<Navbar />
+			<DashboardNavbar />
 			{children}
-			<Footer />
 		</>
 	);
 }

@@ -43,8 +43,8 @@ export function PhotoGallery() {
 			<CarouselContent>
 				{photos.map((photo, index) => (
 					<CarouselItem key={index}>
-						<div className="p-1">
-							<Card>
+						<div className="">
+							<Card className="p-0">
 								<CardContent className="relative aspect-video flex items-center justify-center p-0  overflow-hidden rounded-lg py-0">
 									<Image
 										src={photo.src || "/placeholder.svg"}
