@@ -16,11 +16,18 @@ import {
 	UserCheck,
 	ArrowRight,
 	RefreshCw,
+	Download,
+	FileText,
+	QrCode,
 } from "lucide-react";
 import Link from "next/link";
 import { useAllEvents, EventType } from "@/common/api/event";
 import { useActiveHackathonForStatic } from "@/common/api/hackathon";
 import { useAllScans } from "@/common/api/scan";
+import { useAllResumes } from "@/common/api/user";
+import { useFlagState } from "@/common/api/flag";
+import { toast } from "sonner";
+import { useState } from "react";
 
 export default function SponsorDashboard() {
 	const { data: hackathon } = useActiveHackathonForStatic();
@@ -32,12 +39,55 @@ export default function SponsorDashboard() {
 		isFetching,
 	} = useAllScans(hackathon?.id);
 	const { data: events } = useAllEvents(hackathon?.id);
+	const { refetch: downloadResumes, isFetching: isDownloading } =
+		useAllResumes();
+	const { data: sponsorScannerFlag } = useFlagState("SponsorScanner");
+	const [downloadProgress, setDownloadProgress] = useState<
+		"idle" | "downloading" | "success" | "error"
+	>("idle");
 
 	const checkInEvent = events?.filter(
 		(event) => event.type === EventType.checkIn
 	);
+
 	const totalCheckIns =
 		scans?.filter((scan) => scan.eventId === checkInEvent?.[0]?.id).length || 0;
+
+	const handleDownloadResumes = async () => {
+		try {
+			setDownloadProgress("downloading");
+			toast.loading("Preparing resume book download...", {
+				id: "resume-download",
+			});
+
+			const result = await downloadResumes();
+
+			if (result.data) {
+				// Create download link for zip file
+				const url = window.URL.createObjectURL(result.data);
+				const link = document.createElement("a");
+				link.href = url;
+				link.download = `HackPSU-2024-Resume-Book-${new Date().toISOString().split("T")[0]}.zip`;
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				window.URL.revokeObjectURL(url);
+
+				setDownloadProgress("success");
+				toast.success("Resume book downloaded successfully!", {
+					id: "resume-download",
+				});
+			} else {
+				throw new Error("No data received");
+			}
+		} catch (error) {
+			setDownloadProgress("error");
+			toast.error("Failed to download resume book. Please try again.", {
+				id: "resume-download",
+			});
+			console.error("Download error:", error);
+		}
+	};
 
 	if (error) {
 		return (
@@ -111,6 +161,77 @@ export default function SponsorDashboard() {
 								<CardDescription>Total participants checked in</CardDescription>
 							</CardContent>
 						</Card>
+
+						{/* Resume Book Download Card */}
+						<Card className="border-2">
+							<CardHeader className="pb-3">
+								<div className="flex items-center gap-3">
+									<div className="p-2 bg-red-100 rounded-lg">
+										<FileText className="h-5 w-5 text-red-600" />
+									</div>
+									<div className="flex-1">
+										<CardTitle className="text-base">Resume Book</CardTitle>
+									</div>
+								</div>
+							</CardHeader>
+							<CardContent className="pt-0 space-y-3">
+								<CardDescription>
+									Download complete resume collection (ZIP)
+								</CardDescription>
+								<Button
+									onClick={handleDownloadResumes}
+									disabled={isDownloading}
+									size="sm"
+									className="w-full"
+									variant={
+										downloadProgress === "success" ? "default" : "outline"
+									}
+								>
+									{isDownloading ? (
+										<>
+											<RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+											Preparing...
+										</>
+									) : downloadProgress === "success" ? (
+										<>
+											<Download className="h-4 w-4 mr-2" />
+											Downloaded
+										</>
+									) : (
+										<>
+											<Download className="h-4 w-4 mr-2" />
+											Download
+										</>
+									)}
+								</Button>
+							</CardContent>
+						</Card>
+
+						{/* Sponsor Scanner Card - Conditional */}
+						{sponsorScannerFlag?.isEnabled && (
+							<Card className="group hover:shadow-md transition-shadow cursor-pointer">
+								<Link href="/scanner" className="block">
+									<CardHeader className="pb-3">
+										<div className="flex items-center gap-3">
+											<div className="p-2 bg-yellow-100 rounded-lg">
+												<QrCode className="h-5 w-5 text-yellow-600" />
+											</div>
+											<div className="flex-1">
+												<CardTitle className="text-base">
+													Booth Scanner
+												</CardTitle>
+											</div>
+											<ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+										</div>
+									</CardHeader>
+									<CardContent className="pt-0">
+										<CardDescription>
+											Check participants into your sponsor booth
+										</CardDescription>
+									</CardContent>
+								</Link>
+							</Card>
+						)}
 
 						{/* Participant Directory */}
 						<Card className="group hover:shadow-md transition-shadow cursor-pointer">
