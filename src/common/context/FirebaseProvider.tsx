@@ -33,9 +33,11 @@ export const FirebaseProvider: FC<Props> = ({ children }) => {
 	const [token, setToken] = useState<string | undefined>(undefined);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | undefined>(undefined);
+	const [hasInitialized, setHasInitialized] = useState(false);
 
 	// Verify session with the auth server
 	const verifySession = useCallback(async () => {
+		console.log("Verifying session...");
 		try {
 			const response = await fetch("https://auth.hackpsu.org/api/sessionUser", {
 				method: "GET",
@@ -45,11 +47,14 @@ export const FirebaseProvider: FC<Props> = ({ children }) => {
 				},
 			});
 
+			console.log("Session verification response:", response.status);
+
 			if (!response.ok) {
-				throw new Error("Session verification failed");
+				throw new Error(`Session verification failed: ${response.status}`);
 			}
 
 			const data = await response.json();
+			console.log("Session data received:", !!data.customToken);
 
 			if (data.customToken) {
 				// Sign in with the custom token from the auth server
@@ -59,6 +64,7 @@ export const FirebaseProvider: FC<Props> = ({ children }) => {
 					data.customToken
 				);
 
+				console.log("Firebase sign-in successful:", userCredential.user.email);
 				setUser(userCredential.user);
 				setToken(data.customToken);
 				setError(undefined);
@@ -69,35 +75,43 @@ export const FirebaseProvider: FC<Props> = ({ children }) => {
 			console.error("Session verification failed:", err);
 			setUser(null);
 			setToken(undefined);
-			setError("Session verification failed");
+			setError(
+				err instanceof Error ? err.message : "Session verification failed"
+			);
 			throw err;
 		}
 	}, []);
 
-	// Check for existing session on mount - with faster timeout
+	// Check for existing session on mount
 	useEffect(() => {
+		if (hasInitialized) return;
+
 		const checkSession = async () => {
+			console.log("Initial session check...");
 			setIsLoading(true);
 			try {
 				// Add a timeout to prevent long waits
 				const timeoutPromise = new Promise((_, reject) =>
-					setTimeout(() => reject(new Error("Session check timeout")), 3000)
+					setTimeout(() => reject(new Error("Session check timeout")), 5000)
 				);
 
 				await Promise.race([verifySession(), timeoutPromise]);
+				console.log("Initial session check successful");
 			} catch (err) {
 				// Session verification failed, user needs to authenticate
-				console.log("No valid session found or timeout occurred");
+				console.log("No valid session found or timeout occurred:", err);
 			} finally {
 				setIsLoading(false);
+				setHasInitialized(true);
 			}
 		};
 
 		checkSession();
-	}, [verifySession]);
+	}, [verifySession, hasInitialized]);
 
 	// Logout function
 	const logout = useCallback(async () => {
+		console.log("Logging out...");
 		setError(undefined);
 		setIsLoading(true);
 
@@ -113,7 +127,9 @@ export const FirebaseProvider: FC<Props> = ({ children }) => {
 
 			setUser(null);
 			setToken(undefined);
+			console.log("Logout successful");
 		} catch (e: any) {
+			console.error("Logout failed:", e);
 			setError(e.message);
 			throw e;
 		} finally {

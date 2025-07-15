@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, useRef, type ReactNode } from "react";
 import { useFirebase } from "@/common/context/FirebaseProvider";
 import { jwtDecode } from "jwt-decode";
 
@@ -31,7 +31,7 @@ const defaultConfig: Required<SimpleAuthGuardConfig> = {
 	authServerUrl: "https://auth.hackpsu.org",
 	redirectMode: "immediate",
 	showLoadingScreen: true,
-	loadingTimeout: 5000,
+	loadingTimeout: 8000, // Increased timeout
 	minimumRole: Role.NONE,
 };
 
@@ -41,7 +41,7 @@ function SimpleLoading() {
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center p-4">
 			<div className="text-center space-y-4">
 				<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-				<p className="text-gray-600">Loading...</p>
+				<p className="text-gray-600">Verifying authentication...</p>
 			</div>
 		</div>
 	);
@@ -63,13 +63,42 @@ function getRole(token: string): number {
 
 export function AuthGuard({ children, config = {} }: SimpleAuthGuardProps) {
 	const finalConfig = { ...defaultConfig, ...config };
-	const { user, isLoading, token } = useFirebase();
+	const { user, isLoading, token, verifySession } = useFirebase();
 	const [authState, setAuthState] = useState<
 		"checking" | "authenticated" | "unauthenticated" | "unauthorized"
 	>("checking");
+	const [hasRedirected, setHasRedirected] = useState(false);
+	const [retryCount, setRetryCount] = useState(0);
+	const mountedRef = useRef(true);
 
-	// Handle redirect to auth server
+	// Check if we just came back from auth server
+	const isReturningFromAuth = () => {
+		const urlParams = new URLSearchParams(window.location.search);
+		return (
+			urlParams.has("returnTo") ||
+			document.referrer.includes(finalConfig.authServerUrl)
+		);
+	};
+
+	// Handle redirect to auth server with loop prevention
 	const redirectToAuth = () => {
+		// Prevent multiple redirects
+		if (hasRedirected) {
+			console.log("Redirect already attempted, preventing loop");
+			return;
+		}
+
+		// Don't redirect if we just came back from auth server
+		if (isReturningFromAuth()) {
+			console.log(
+				"Just returned from auth server, waiting for session verification"
+			);
+			return;
+		}
+
+		console.log("Redirecting to auth server");
+		setHasRedirected(true);
+
 		const currentUrl = window.location.href;
 		const authUrl = new URL(`${finalConfig.authServerUrl}/login`);
 		authUrl.searchParams.set("returnTo", currentUrl);
@@ -92,14 +121,47 @@ export function AuthGuard({ children, config = {} }: SimpleAuthGuardProps) {
 		return true;
 	};
 
+	// Retry session verification
+	const retryVerification = async () => {
+		if (retryCount >= 3) {
+			console.log("Max retries reached, redirecting to auth");
+			redirectToAuth();
+			return;
+		}
+
+		console.log(`Retrying session verification (attempt ${retryCount + 1})`);
+		setRetryCount((prev) => prev + 1);
+
+		try {
+			await verifySession();
+		} catch (error) {
+			console.error("Session verification failed:", error);
+		}
+	};
+
+	useEffect(() => {
+		mountedRef.current = true;
+		return () => {
+			mountedRef.current = false;
+		};
+	}, []);
+
 	useEffect(() => {
 		let timeoutId: NodeJS.Timeout | null = null;
 
+		console.log("Auth state check:", {
+			isLoading,
+			user: !!user,
+			token: !!token,
+			authState,
+		});
+
+		// Set timeout for loading state
 		if (isLoading && finalConfig.loadingTimeout) {
 			timeoutId = setTimeout(() => {
-				if (isLoading) {
-					// If still loading after timeout, redirect anyway
-					redirectToAuth();
+				if (mountedRef.current && isLoading) {
+					console.log("Loading timeout reached, attempting retry");
+					retryVerification();
 				}
 			}, finalConfig.loadingTimeout);
 		}
@@ -111,10 +173,18 @@ export function AuthGuard({ children, config = {} }: SimpleAuthGuardProps) {
 
 			if (user) {
 				const authorized = checkAuthorization(user, token);
+				console.log("User found, authorized:", authorized);
 				setAuthState(authorized ? "authenticated" : "unauthorized");
 			} else {
+				console.log("No user found");
 				setAuthState("unauthenticated");
-				redirectToAuth();
+
+				// Add a small delay before redirecting to allow for any pending auth state changes
+				setTimeout(() => {
+					if (mountedRef.current && !user && !hasRedirected) {
+						redirectToAuth();
+					}
+				}, 1000);
 			}
 		}
 
@@ -123,7 +193,7 @@ export function AuthGuard({ children, config = {} }: SimpleAuthGuardProps) {
 				clearTimeout(timeoutId);
 			}
 		};
-	}, [isLoading, user, token]);
+	}, [isLoading, user, token, retryCount]);
 
 	// Show loading
 	if (authState === "checking" && finalConfig.showLoadingScreen) {
@@ -140,7 +210,10 @@ export function AuthGuard({ children, config = {} }: SimpleAuthGuardProps) {
 						You don't have sufficient permissions to access this application.
 					</p>
 					<button
-						onClick={redirectToAuth}
+						onClick={() => {
+							setHasRedirected(false);
+							redirectToAuth();
+						}}
 						className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
 					>
 						Try Different Account
@@ -161,7 +234,10 @@ export function AuthGuard({ children, config = {} }: SimpleAuthGuardProps) {
 					<h1 className="text-2xl font-bold text-gray-900">Sign In Required</h1>
 					<p className="text-gray-600">Please sign in to continue.</p>
 					<button
-						onClick={redirectToAuth}
+						onClick={() => {
+							setHasRedirected(false);
+							redirectToAuth();
+						}}
 						className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
 					>
 						Continue to Sign In
@@ -177,7 +253,7 @@ export function AuthGuard({ children, config = {} }: SimpleAuthGuardProps) {
 	}
 
 	// Default loading state
-	return <div>Loading...</div>;
+	return <SimpleLoading />;
 }
 
 // Export Role enum for use in configs
