@@ -1,3 +1,4 @@
+import { AuthGuard, Role } from "@/common/context/AuthGuard";
 import { DashboardNavbar } from "@/components/dashboard-navbar";
 
 export default function DashboardLayout({
@@ -8,8 +9,10 @@ export default function DashboardLayout({
 	return (
 		<>
 			{" "}
-			<DashboardNavbar />
-			{children}
+			<AuthGuard config={{ minimumRole: Role.TECH }}>
+				<DashboardNavbar />
+				{children}
+			</AuthGuard>{" "}
 		</>
 	);
 }

@@ -18,8 +18,7 @@ type FormValues = {
 
 export default function AuthScreen() {
 	const router = useRouter();
-	const { loginWithEmailAndPassword, isAuthenticated, logout, resetPassword } =
-		useFirebase();
+	const { isAuthenticated, logout } = useFirebase();
 
 	const [loginError, setLoginError] = useState("");
 	const [resetMessage, setResetMessage] = useState("");
@@ -42,7 +41,6 @@ export default function AuthScreen() {
 		setIsLoading(true);
 		setLoginError("");
 		try {
-			await loginWithEmailAndPassword(data.email, data.password);
 		} catch (err: any) {
 			setLoginError(err.message || String(err));
 		} finally {
@@ -59,7 +57,6 @@ export default function AuthScreen() {
 		setResetMessage("");
 		setResetError("");
 		try {
-			await resetPassword(email);
 			setResetMessage("Password reset email sent. Check your inbox.");
 		} catch (err: any) {
 			setResetError(err.message || String(err));

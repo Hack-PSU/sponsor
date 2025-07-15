@@ -69,7 +69,7 @@ export function Navbar() {
 						variant="outline"
 						className="hidden sm:inline-flex bg-transparent"
 					>
-						<Link href="/login">Sponsor Login</Link>
+						<Link href="/dashboard">Sponsor Login</Link>
 					</Button>
 					<Button
 						asChild
