@@ -21,7 +21,7 @@ export default function LayoutProvider({
 		<>
 			<FirebaseProvider>
 				<QueryClientProvider client={queryClient}>
-					<AuthGuard>{children}</AuthGuard>
+					{children}
 				</QueryClientProvider>
 			</FirebaseProvider>
 		</>

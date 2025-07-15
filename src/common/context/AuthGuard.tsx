@@ -81,13 +81,10 @@ export function AuthGuard({ children, config = {} }: SimpleAuthGuardProps) {
 
 	// Check user authorization
 	const checkAuthorization = (user: any, token?: string): boolean => {
-		if (finalConfig.minimumRole === Role.NONE) {
-			return true;
-		}
 		if (!user) return false;
 
 		// Check role if minimum role is specified and token is available
-		if (token) {
+		if (finalConfig.minimumRole !== Role.NONE && token) {
 			const userRole = getRole(token);
 			return userRole >= finalConfig.minimumRole;
 		}
