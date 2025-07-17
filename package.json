@@ -34,7 +34,7 @@
 		"cmdk": "^1.1.1",
 		"embla-carousel-autoplay": "^8.6.0",
 		"embla-carousel-react": "^8.6.0",
-		"firebase": "^11.10.0",
+		"firebase": "^12.0.0",
 		"framer-motion": "^12.23.3",
 		"jsqr": "^1.4.0",
 		"jwt-decode": "^4.0.0",
