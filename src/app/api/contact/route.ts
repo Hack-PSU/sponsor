@@ -12,7 +12,9 @@ const contactFormSchema = z.object({
 	name: z.string().min(1, "Name is required."),
 	email: z.email("Invalid email address."),
 	company: z.string().optional(),
+	subject: z.string().optional(), // Allow custom subject line
 	message: z.string().min(1, "Message is required."),
+	sendConfirmation: z.boolean().optional().default(true), // Control confirmation email
 	honeypot: z.string().optional(), // for spam prevention
 });
 
@@ -44,13 +46,14 @@ export async function POST(request: Request) {
 			return NextResponse.json({ success: true });
 		}
 
-		const { name, email, company, message } = parsed.data;
+		const { name, email, company, subject, message, sendConfirmation } =
+			parsed.data;
 
-		// Email to site owner
+		// Email to site owner/sponsorship team
 		const ownerMsg = {
 			to: "sponsorship@hackpsu.org",
 			from: "sponsorship@hackpsu.org",
-			subject: `New Sponsor Inquiry from ${name}`,
+			subject: subject || `New Sponsor Inquiry from ${name}`,
 			replyTo: email,
 			html: `
         <p><strong>Name:</strong> ${name}</p>
@@ -60,28 +63,31 @@ export async function POST(request: Request) {
       `,
 		};
 
-		// Confirmation email to user
-		const userConfirmationMsg = {
-			to: email,
-			from: "sponsorship@hackpsu.org", // Use a verified sender
-			subject: "We've Received Your Message | HackPSU Sponsorship",
-			html: `
-        <p>Hi ${name},</p>
-        <p>Thank you for reaching out to the HackPSU team! We've received your message and will get back to you as soon as possible.</p>
-        <p>Here's a copy of your message for your records:</p>
-        <blockquote style="border-left: 2px solid #ccc; padding-left: 1em; margin-left: 1em;">
-          <p><strong>Company:</strong> ${company || "N/A"}</p>
-          <p><strong>Message:</strong><br/>${message.replace(/\n/g, "<br/>")}</p>
-        </blockquote>
-        <p>Best,<br/>The HackPSU Team</p>
-      `,
-		};
+		// Prepare emails to send
+		const emailsToSend = [sendgrid.send(ownerMsg)];
 
-		// Send both emails
-		await Promise.all([
-			sendgrid.send(ownerMsg),
-			sendgrid.send(userConfirmationMsg),
-		]);
+		// Only send confirmation email if requested
+		if (sendConfirmation) {
+			const userConfirmationMsg = {
+				to: email,
+				from: "sponsorship@hackpsu.org", // Use a verified sender
+				subject: "We've Received Your Message | HackPSU Sponsorship",
+				html: `
+          <p>Hi ${name},</p>
+          <p>Thank you for reaching out to the HackPSU team! We've received your message and will get back to you as soon as possible.</p>
+          <p>Here's a copy of your message for your records:</p>
+          <blockquote style="border-left: 2px solid #ccc; padding-left: 1em; margin-left: 1em;">
+            <p><strong>Company:</strong> ${company || "N/A"}</p>
+            <p><strong>Message:</strong><br/>${message.replace(/\n/g, "<br/>")}</p>
+          </blockquote>
+          <p>Best,<br/>The HackPSU Team</p>
+        `,
+			};
+			emailsToSend.push(sendgrid.send(userConfirmationMsg));
+		}
+
+		// Send emails
+		await Promise.all(emailsToSend);
 
 		return NextResponse.json({ success: true });
 	} catch (error) {
