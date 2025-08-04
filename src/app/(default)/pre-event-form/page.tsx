@@ -81,22 +81,20 @@ export default function PreEventFormPage() {
 		setIsSubmitting(true);
 
 		try {
+			const formDataToSend = new FormData();
+			formDataToSend.append("name", formData.name);
+			formDataToSend.append("email", formData.email);
+			formDataToSend.append("organization", formData.organization);
+			formDataToSend.append("shirtSize", formData.shirtSize);
+			formDataToSend.append("dietaryRestrictions", formData.dietaryRestrictions || "None");
+			formDataToSend.append("accommodations", formData.accommodations || "None");
+			formDataToSend.append("questions", formData.questions || "None");
+			formDataToSend.append("honeypot", formData.honeypot);
+			formDataToSend.append("formType", "pre-event-sponsor");
+
 			const response = await fetch("/saveRecord", {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					name: formData.name,
-					email: formData.email,
-					organization: formData.organization,
-					shirtSize: formData.shirtSize,
-					dietaryRestrictions: formData.dietaryRestrictions || "None",
-					accommodations: formData.accommodations || "None",
-					questions: formData.questions || "None",
-					honeypot: formData.honeypot,
-					formType: "pre-event-sponsor",
-				}),
+				body: formDataToSend,
 			});
 
 			if (response.ok) {

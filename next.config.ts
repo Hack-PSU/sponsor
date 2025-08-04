@@ -29,8 +29,7 @@ const nextConfig: NextConfig = {
 			},
 			{
 				source: "/saveRecord",
-				destination:
-					"https://us-east4-hackpsu-408118.cloudfunctions.net/ext-http-export-sheets-saveRecord",
+				destination: process.env.SAVE_RECORD_URL!,
 			},
 		];
 	},
