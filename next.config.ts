@@ -27,6 +27,11 @@ const nextConfig: NextConfig = {
 				source: "/ingest/decide",
 				destination: "https://us.i.posthog.com/decide",
 			},
+			{
+				source: "/saveRecord",
+				destination:
+					"https://us-east4-hackpsu-408118.cloudfunctions.net/ext-http-export-sheets-saveRecord",
+			},
 		];
 	},
 	// This is required to support PostHog trailing slash API requests

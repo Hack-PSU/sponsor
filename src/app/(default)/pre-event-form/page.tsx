@@ -81,26 +81,23 @@ export default function PreEventFormPage() {
 		setIsSubmitting(true);
 
 		try {
-			const response = await fetch(
-				"https://us-east4-hackpsu-408118.cloudfunctions.net/ext-http-export-sheets-saveRecord",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						name: formData.name,
-						email: formData.email,
-						organization: formData.organization,
-						shirtSize: formData.shirtSize,
-						dietaryRestrictions: formData.dietaryRestrictions || "None",
-						accommodations: formData.accommodations || "None",
-						questions: formData.questions || "None",
-						honeypot: formData.honeypot,
-						formType: "pre-event-sponsor",
-					}),
-				}
-			);
+			const response = await fetch("/saveRecord", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: formData.name,
+					email: formData.email,
+					organization: formData.organization,
+					shirtSize: formData.shirtSize,
+					dietaryRestrictions: formData.dietaryRestrictions || "None",
+					accommodations: formData.accommodations || "None",
+					questions: formData.questions || "None",
+					honeypot: formData.honeypot,
+					formType: "pre-event-sponsor",
+				}),
+			});
 
 			if (response.ok) {
 				toast.success("Form submitted successfully! We'll be in touch soon.");
