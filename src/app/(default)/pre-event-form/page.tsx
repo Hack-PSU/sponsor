@@ -81,33 +81,26 @@ export default function PreEventFormPage() {
 		setIsSubmitting(true);
 
 		try {
-			const response = await fetch("/api/contact", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					name: formData.name,
-					email: formData.email,
-					company: formData.organization,
-					subject: `Pre-Event Form Submission - ${formData.organization}`,
-					sendConfirmation: false, // Don't send confirmation email for pre-event forms
-					honeypot: formData.honeypot, // For spam prevention
-					message: `
-Pre-Event Form Submission
-
-Name: ${formData.name}
-Email: ${formData.email}
-Organization: ${formData.organization}
-Shirt Size: ${formData.shirtSize}
-Dietary Restrictions: ${formData.dietaryRestrictions || "None"}
-Accommodations: ${formData.accommodations || "None"}
-Questions/Comments: ${formData.questions || "None"}
-
-This form was submitted through the HackPSU Sponsor Portal.
-					`.trim(),
-				}),
-			});
+			const response = await fetch(
+				"https://us-east4-hackpsu-408118.cloudfunctions.net/ext-http-export-sheets-saveRecord",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						name: formData.name,
+						email: formData.email,
+						organization: formData.organization,
+						shirtSize: formData.shirtSize,
+						dietaryRestrictions: formData.dietaryRestrictions || "None",
+						accommodations: formData.accommodations || "None",
+						questions: formData.questions || "None",
+						honeypot: formData.honeypot,
+						formType: "pre-event-sponsor",
+					}),
+				}
+			);
 
 			if (response.ok) {
 				toast.success("Form submitted successfully! We'll be in touch soon.");
