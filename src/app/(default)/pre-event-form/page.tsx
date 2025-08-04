@@ -129,7 +129,7 @@ export default function PreEventFormPage() {
 							your information and get back to you if needed.
 						</p>
 						<p className="text-sm text-muted-foreground">
-							See you at HackPSU Spring 2025! 🚀
+							See you at HackPSU! 🚀
 						</p>
 					</CardContent>
 				</Card>
@@ -146,7 +146,7 @@ export default function PreEventFormPage() {
 				</h1>
 				<div className="flex items-center gap-4 mb-4">
 					<Badge variant="secondary" className="text-lg px-3 py-1">
-						HackPSU Spring 2025
+						HackPSU
 					</Badge>
 				</div>
 				<p className="text-muted-foreground leading-relaxed">
