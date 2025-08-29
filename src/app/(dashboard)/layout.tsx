@@ -9,7 +9,12 @@ export default function DashboardLayout({
 	return (
 		<>
 			{" "}
-			<AuthGuard config={{ minimumRole: Role.TECH }}>
+			<AuthGuard
+				config={{
+					minimumRole: Role.TECH,
+					authServerUrl: process.env.NEXT_PUBLIC_AUTH_SERVICE_URL,
+				}}
+			>
 				<DashboardNavbar />
 				{children}
 			</AuthGuard>{" "}
