@@ -40,6 +40,7 @@ const tiers = [
 	},
 ];
 
+
 const perks = {
 	BRANDING: [
 		{
@@ -127,7 +128,7 @@ export function SponsorshipTiers() {
 									>
 										<div className="text-lg font-bold">{tier.name}</div>
 										<div className="text-sm text-muted-foreground">
-											{tier.price}
+										    {tier.price}
 										</div>
 									</TableHead>
 								))}
@@ -181,6 +182,9 @@ export function SponsorshipTiers() {
 								</span>
 							</div>
 						))}
+					</div>
+					<div className="text-sm text-muted-foreground text-center mt-4">
+						<h3>Prices May Vary</h3>
 					</div>
 				</div>
 			</CardContent>
