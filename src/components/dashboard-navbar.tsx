@@ -39,11 +39,11 @@ const navigationItems = [
 		href: "/schedule",
 		icon: Calendar,
 	},
-	{
-		name: "Profile",
-		href: "/profile",
-		icon: User,
-	},
+	// {
+	// 	name: "Profile",
+	// 	href: "/profile",
+	// 	icon: User,
+	// },
 ];
 
 export function DashboardNavbar() {
