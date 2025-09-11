@@ -130,9 +130,6 @@ export function SponsorshipTiers() {
 										<div className="text-sm text-muted-foreground">
 										    {tier.price}
 										</div>
-										<div className="text-sm text-muted-foreground">
-										    *Prices May Vary*
-										</div>
 									</TableHead>
 								))}
 							</TableRow>
@@ -185,6 +182,9 @@ export function SponsorshipTiers() {
 								</span>
 							</div>
 						))}
+					</div>
+					<div className="text-sm text-muted-foreground text-center mt-4">
+						<h3>Prices May Vary</h3>
 					</div>
 				</div>
 			</CardContent>
