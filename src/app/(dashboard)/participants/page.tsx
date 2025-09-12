@@ -355,7 +355,9 @@ function ParticipantsDirectory() {
 										<div className="truncate">
 											<p className="font-semibold text-sm truncate">{`${p.firstName} ${p.lastName}`}</p>
 											<p className="text-xs text-muted-foreground truncate">
-												{p.major}
+												{p.major && p.university
+												? `${p.major} at ${p.university}`
+												: p.major || p.university || ""}
 											</p>
 										</div>
 									</div>
