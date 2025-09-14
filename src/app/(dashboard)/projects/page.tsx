@@ -56,7 +56,7 @@ function ProjectsDirectory() {
 	}, [projects, selectedChallenges]);
 
 	return (
-		<div className="bg-muted/30 text-foreground min-h-screen">
+		<div className="bg-muted/30 text-foreground min-h-screen overflow-x-hidden">
 			<header className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-10">
 				<div className="container mx-auto px-4 py-4">
 					<h1 className="text-2xl font-bold tracking-tight">
@@ -85,12 +85,12 @@ function ProjectsDirectory() {
 				{isLoading ? (
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 						{[...Array(6)].map((_, i) => (
-							<Card key={i}>
-								<CardHeader>
+							<Card key={i} className="min-w-0">
+								<CardHeader className="min-w-0">
 									<Skeleton className="h-5 w-3/4" />
 								</CardHeader>
-								<CardContent>
-									<div className="flex flex-wrap gap-2">
+								<CardContent className="min-w-0">
+									<div className="flex flex-wrap gap-2 min-w-0">
 										<Skeleton className="h-6 w-24 rounded-full" />
 										<Skeleton className="h-6 w-28 rounded-full" />
 									</div>
@@ -117,24 +117,26 @@ function ProjectsDirectory() {
 				) : (
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 						{filteredProjects.map((project) => (
-							<Card key={project.id} className="flex flex-col">
-								<CardHeader className="flex-grow">
-									<div className="flex items-start gap-3">
+							<Card key={project.id} className="flex flex-col min-w-0">
+								<CardHeader className="flex-grow min-w-0">
+									<div className="flex items-start gap-3 min-w-0">
 										<Lightbulb className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
-										<CardTitle className="text-base">{project.name}</CardTitle>
+										<CardTitle className="text-base break-words min-w-0">
+											{project.name}
+										</CardTitle>
 									</div>
 								</CardHeader>
-								<CardContent>
-									<div className="flex flex-wrap gap-2">
+								<CardContent className="min-w-0">
+									<div className="flex flex-wrap gap-2 min-w-0">
 										{project.categories ? (
 											project.categories.split(",").map((cat) => (
 												<Badge
 													key={cat}
 													variant="secondary"
-													className="font-normal"
+													className="font-normal w-auto max-w-full whitespace-normal break-words break-all shrink text-left"
 												>
-													<Trophy className="h-3 w-3 mr-1.5" />
-													{cat.trim()}
+													<Trophy className="h-3 w-3 mr-1.5 flex-shrink-0" />
+													<span className="min-w-0 break-words break-all">{cat.trim()}</span>
 												</Badge>
 											))
 										) : (

@@ -50,43 +50,43 @@ function MultiSelect({
 	};
 
 	return (
-		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger asChild>
-				<Button
-					variant="outline"
-					role="combobox"
-					aria-expanded={open}
-					className={cn(
-						"w-full justify-between",
-						selected.length > 0 ? "h-full" : "h-10"
-					)}
-					onClick={() => setOpen(!open)}
-				>
-					<div className="flex gap-1 flex-wrap">
-						{selected.length > 0 ? (
-							options
-								.filter((option) => selected.includes(option.value))
-								.map((option) => (
-									<Badge
-										variant="secondary"
-										key={option.value}
-										className="mr-1 mb-1"
-										onClick={(e) => {
-											e.stopPropagation();
-											onChange(selected.filter((s) => s !== option.value));
-										}}
-									>
-										{option.label}
-										<X className="ml-1 h-3 w-3" />
-									</Badge>
-								))
-						) : (
-							<span className="text-muted-foreground">{placeholder}</span>
-						)}
-					</div>
-					<ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-				</Button>
-			</PopoverTrigger>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className={cn(
+            "w-full justify-between overflow-hidden",
+            selected.length > 0 ? "h-full" : "h-10"
+          )}
+          onClick={() => setOpen(!open)}
+        >
+          <div className="flex gap-1 flex-wrap items-center min-w-0">
+            {selected.length > 0 ? (
+              options
+                .filter((option) => selected.includes(option.value))
+                .map((option) => (
+                  <Badge
+                    variant="secondary"
+                    key={option.value}
+                    className="mr-1 mb-1 whitespace-normal break-words max-w-full"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onChange(selected.filter((s) => s !== option.value));
+                    }}
+                  >
+                    {option.label}
+                    <X className="ml-1 h-3 w-3" />
+                  </Badge>
+                ))
+            ) : (
+              <span className="text-muted-foreground">{placeholder}</span>
+            )}
+          </div>
+          <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
 			<PopoverContent className="w-full p-0">
 				<Command className={className}>
 					<CommandInput placeholder="Search ..." />
