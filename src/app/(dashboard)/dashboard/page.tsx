@@ -50,6 +50,8 @@ export default function SponsorDashboard() {
 		(event) => event.type === EventType.checkIn
 	);
 
+	const eventYear = hackathon?.name;
+
 	const totalCheckIns =
 		scans?.filter((scan) => scan.eventId === checkInEvent?.[0]?.id).length || 0;
 
@@ -67,7 +69,7 @@ export default function SponsorDashboard() {
 				const url = window.URL.createObjectURL(result.data);
 				const link = document.createElement("a");
 				link.href = url;
-				link.download = `HackPSU-2024-Resume-Book-${new Date().toISOString().split("T")[0]}.zip`;
+				link.download = `HackPSU-${eventYear}-Resume-Book-${new Date().toISOString().split("T")[0]}.zip`;
 				document.body.appendChild(link);
 				link.click();
 				document.body.removeChild(link);
@@ -313,7 +315,7 @@ export default function SponsorDashboard() {
 						<div className="text-center space-y-2">
 							<UserCheck className="h-8 w-8 text-blue-600 mx-auto" />
 							<h3 className="font-semibold text-blue-900">
-								Welcome to HackPSU 2024!
+								Welcome to HackPSU {eventYear}!
 							</h3>
 							<p className="text-sm text-blue-700">
 								Thank you for sponsoring our event. Use the navigation above to
