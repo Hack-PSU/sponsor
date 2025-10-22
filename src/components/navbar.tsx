@@ -25,12 +25,12 @@ export function Navbar() {
 	return (
 		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="container flex h-16 items-center">
-				<Link href="/" className="mr-6 flex items-center space-x-2">
+				<Link href="/" className="mr-2 sm:mr-6 flex items-center space-x-2">
 					<Image src="/logo.png" alt="HackPSU Logo" width={40} height={40} />
 					<span className="hidden font-bold sm:inline-block">HackPSU</span>
 				</Link>
 
-				<nav className="flex flex-1 items-center space-x-6 text-sm font-medium">
+				<nav className="hidden md:flex flex-1 items-center space-x-6 text-sm font-medium">
 					<Link
 						href="/#tiers"
 						onClick={(e) => handleSmoothScroll(e, "tiers")}
@@ -63,23 +63,26 @@ export function Navbar() {
 					</Link>
 				</nav>
 
-				<div className="flex items-center justify-end space-x-4">
+				<div className="flex flex-1 md:flex-initial items-center justify-end gap-2 sm:gap-4">
 					<Button
 						asChild
 						variant="outline"
-						className="hidden sm:inline-flex bg-transparent"
+						size="sm"
+						className="bg-transparent text-xs sm:text-sm"
 					>
-						<Link href="/dashboard">Sponsor Login</Link>
+						<Link href="/dashboard">Login</Link>
 					</Button>
 					<Button
 						asChild
-						className="bg-gradient-to-b from-primary via-primary to-orange-600 shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/40"
+						size="sm"
+						className="bg-gradient-to-b from-primary via-primary to-orange-600 shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/40 text-xs sm:text-sm whitespace-nowrap"
 					>
 						<Link
 							href="/#contact"
 							onClick={(e) => handleSmoothScroll(e, "contact")}
 						>
-							Become a Sponsor
+							<span className="hidden sm:inline">Become a Sponsor</span>
+							<span className="sm:hidden">Sponsor</span>
 						</Link>
 					</Button>
 				</div>

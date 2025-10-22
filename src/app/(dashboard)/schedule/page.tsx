@@ -63,9 +63,9 @@ export default function EventSchedule() {
 	const { data: hackathon } = useActiveHackathonForStatic();
 	const { data: events = [], isLoading, refetch } = useAllEvents(hackathon?.id);
 
-	const { day1Events, day2Events, day3Events, eventDays } = useMemo(() => {
+	const { eventsByDay, eventDays } = useMemo(() => {
 		if (!events.length)
-			return { day1Events: [], day2Events: [], day3Events: [], eventDays: [] };
+			return { eventsByDay: new Map<string, EventEntityResponse[]>(), eventDays: [] };
 
 		// Sort events by start time
 		const sortedEvents = [...events].sort((a, b) => a.startTime - b.startTime);
@@ -89,11 +89,8 @@ export default function EventSchedule() {
 		const eventDays = Array.from(days).sort(
 			(a, b) => new Date(a).getTime() - new Date(b).getTime()
 		);
-		const day1Events = eventsByDay.get(eventDays[0]) || [];
-		const day2Events = eventsByDay.get(eventDays[1]) || [];
-		const day3Events = eventsByDay.get(eventDays[2]) || [];
 
-		return { day1Events, day2Events, day3Events, eventDays };
+		return { eventsByDay, eventDays };
 	}, [events]);
 
 	const formatTime = (timestamp: number) => {
@@ -395,58 +392,40 @@ export default function EventSchedule() {
 
 			{/* Schedule Tabs */}
 			<Tabs defaultValue="day1" className="space-y-4">
-				<TabsList
-					className={`grid w-full ${eventDays.length === 3 ? "grid-cols-3" : eventDays.length === 2 ? "grid-cols-2" : "grid-cols-1"}`}
-				>
-					{eventDays.map((day, index) => (
-						<TabsTrigger
-							key={`day${index + 1}`}
-							value={`day${index + 1}`}
-							className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm"
-						>
-							<Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
-							<span className="hidden sm:inline">{formatDateLong(day)}</span>
-							<span className="sm:hidden">{formatDate(day)}</span>
-						</TabsTrigger>
-					))}
-				</TabsList>
+				<div className="w-full overflow-x-auto pb-2">
+					<TabsList className="inline-flex w-auto h-auto p-1 gap-2">
+						{eventDays.map((day, index) => (
+							<TabsTrigger
+								key={`day${index + 1}`}
+								value={`day${index + 1}`}
+								className="flex flex-col items-center gap-1 px-3 py-2 sm:px-4 sm:py-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md min-w-[120px] sm:min-w-[160px]"
+							>
+								<div className="flex items-center gap-1 sm:gap-2">
+									<Calendar className="h-4 w-4" />
+									<span className="font-semibold text-sm sm:text-base">
+										Day {index + 1}
+									</span>
+								</div>
+								<span className="text-xs sm:text-sm text-muted-foreground data-[state=active]:text-primary-foreground/80">
+									{formatDate(day)}
+								</span>
+							</TabsTrigger>
+						))}
+					</TabsList>
+				</div>
 
-				<TabsContent value="day1">
-					<Card>
-						<CardContent className="p-4 sm:p-6">
-							<DaySchedule
-								events={day1Events}
-								dayTitle={eventDays[0] ? formatDateLong(eventDays[0]) : "Day 1"}
-							/>
-						</CardContent>
-					</Card>
-				</TabsContent>
-
-				<TabsContent value="day2">
-					<Card>
-						<CardContent className="p-4 sm:p-6">
-							<DaySchedule
-								events={day2Events}
-								dayTitle={eventDays[1] ? formatDateLong(eventDays[1]) : "Day 2"}
-							/>
-						</CardContent>
-					</Card>
-				</TabsContent>
-
-				{eventDays.length >= 3 && (
-					<TabsContent value="day3">
+				{eventDays.map((day, index) => (
+					<TabsContent key={`day${index + 1}`} value={`day${index + 1}`}>
 						<Card>
 							<CardContent className="p-4 sm:p-6">
 								<DaySchedule
-									events={day3Events}
-									dayTitle={
-										eventDays[2] ? formatDateLong(eventDays[2]) : "Day 3"
-									}
+									events={eventsByDay.get(day) || []}
+									dayTitle={formatDateLong(day)}
 								/>
 							</CardContent>
 						</Card>
 					</TabsContent>
-				)}
+				))}
 			</Tabs>
 
 			{/* Event Details Sheet */}
