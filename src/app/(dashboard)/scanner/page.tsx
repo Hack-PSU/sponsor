@@ -55,8 +55,7 @@ const SponsorScannerPage: React.FC = () => {
 	const filteredEventsData: Event[] | undefined = eventsData?.filter((event: Event) => 
 		event.name.includes("(Sponsor)")
 	);
-	console.log("Filtered Events Data:", filteredEventsData);
-	console.log("Events Data:", eventsData);
+
 	
 	const { data: hackathonData } = useActiveHackathonForStatic();
 	const { mutate: checkInMutate } = useCheckInEvent();
