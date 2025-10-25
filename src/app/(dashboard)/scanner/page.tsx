@@ -45,21 +45,34 @@ const SponsorScannerPage: React.FC = () => {
 		isLoading: eventsLoading,
 		isError: eventsError,
 	} = useAllEvents();
+
+	// Filter events to only include those with "(Sponsor)" in the name
+	interface Event {
+		id: string;
+		name: string;
+	}
+
+	const filteredEventsData: Event[] | undefined = eventsData?.filter((event: Event) => 
+		event.name.includes("(Sponsor)")
+	);
+	console.log("Filtered Events Data:", filteredEventsData);
+	console.log("Events Data:", eventsData);
+	
 	const { data: hackathonData } = useActiveHackathonForStatic();
 	const { mutate: checkInMutate } = useCheckInEvent();
 	const { data: userData } = useAllUsers();
 
 	// Default event selection - prioritize sponsor/booth events
 	useEffect(() => {
-		if (!eventsLoading && eventsData && eventsData.length && !selectedEvent) {
-			const sponsorEvent = eventsData.find(
+		if (!eventsLoading && filteredEventsData && filteredEventsData.length && !selectedEvent) {
+			const sponsorEvent = filteredEventsData.find(
 				(e) =>
 					e.name.toLowerCase().includes("sponsor") ||
 					e.name.toLowerCase().includes("booth")
 			);
-			setSelectedEvent(sponsorEvent?.id || eventsData[0].id);
+			setSelectedEvent(sponsorEvent?.id || filteredEventsData[0].id);
 		}
-	}, [eventsLoading, eventsData, selectedEvent]);
+	}, [eventsLoading, filteredEventsData, selectedEvent]);
 
 	// Start camera
 	useEffect(() => {
@@ -116,7 +129,7 @@ const SponsorScannerPage: React.FC = () => {
 				{
 					onSuccess: () => {
 						const eventName =
-							eventsData?.find((e) => e.id === selectedEvent)?.name || "event";
+							filteredEventsData?.find((e) => e.id === selectedEvent)?.name || "event";
 						toast.success("Participant checked in successfully!", {
 							description: `User ${scannedUserId} → ${eventName}`,
 						});
@@ -134,7 +147,7 @@ const SponsorScannerPage: React.FC = () => {
 				}
 			);
 		},
-		[user, selectedEvent, hackathonData, checkInMutate, logout, eventsData]
+		[user, selectedEvent, hackathonData, checkInMutate, logout, filteredEventsData]
 	);
 
 	const captureAndScanImage = useCallback(async () => {
@@ -248,7 +261,7 @@ const SponsorScannerPage: React.FC = () => {
 								/>
 							</div>
 							<div className="max-h-[200px] overflow-y-auto">
-								{eventsData?.map((evt) => (
+								{filteredEventsData?.map((evt) => (
 									<SelectItem key={evt.id} value={evt.id}>
 										{evt.name}
 									</SelectItem>
