@@ -38,7 +38,7 @@
 		"framer-motion": "^12.23.3",
 		"jsqr": "^1.4.0",
 		"jwt-decode": "^4.0.0",
-		"lucide-react": "^0.555.0",
+		"lucide-react": "^0.556.0",
 		"luxon": "^3.7.1",
 		"next": "15.5.7",
 		"peerjs": "^1.5.5",
