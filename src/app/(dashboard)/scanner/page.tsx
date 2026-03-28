@@ -112,7 +112,11 @@ const SponsorScannerPage: React.FC = () => {
 				lastScannedRef.current === scannedUserId &&
 				now - lastScannedTimeRef.current < 5000
 			) {
-				//toast.info("Participant already scanned recently")
+				setScanStatus("found");
+				toast.success("Already scanned!", {
+					description: `This participant has already been checked in`,
+				});
+				setTimeout(() => setScanStatus("scanning"), 2000);
 				return;
 			}
 
@@ -137,11 +141,20 @@ const SponsorScannerPage: React.FC = () => {
 						setTimeout(() => setScanStatus("scanning"), 2000);
 					},
 					onError: (err: any) => {
-						console.error(err);
-						toast.error("Failed to check in participant", {
-							description: err.message || "Please try again",
-						});
-						setScanStatus("scanning");
+						if (err?.status === 409 || err?.response?.status === 409) {
+							setScanStatus("found");
+							toast.success("Already scanned!", {
+								description: "This participant has already been checked in",
+							});
+							setRecentScans((prev) => [scannedUserId, ...prev.slice(0, 4)]);
+							setTimeout(() => setScanStatus("scanning"), 2000);
+						} else {
+							console.error(err);
+							toast.error("Failed to check in participant", {
+								description: err.message || "Please try again",
+							});
+							setScanStatus("scanning");
+						}
 					},
 				}
 			);
