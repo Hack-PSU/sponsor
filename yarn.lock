@@ -1582,24 +1582,12 @@
   resolved "https://registry.yarnpkg.com/@pkgr/core/-/core-0.2.9.tgz#d229a7b7f9dac167a156992ef23c7f023653f53b"
   integrity sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==
 
-"@posthog/core@1.29.13":
-  version "1.29.13"
-  resolved "https://registry.yarnpkg.com/@posthog/core/-/core-1.29.13.tgz#45fa76fc1bef5d581bf51678e046c760211191ae"
-  integrity sha512-7Me5zaeAue/wmA364Go8ChYbsVAfNAHbtDxXopWu3D6hq9PVScUcauRgjD1njgvP8NzN91SrIllE+pri3XvJVw==
-  dependencies:
-    "@posthog/types" "1.376.4"
-
 "@posthog/core@1.29.14":
   version "1.29.14"
   resolved "https://registry.yarnpkg.com/@posthog/core/-/core-1.29.14.tgz#6f5eed9fdc9798bde4de3d6bd1238218c29e1831"
   integrity sha512-IqfiD5rxdgPHsZMz45uQu824a5CEnpXRIU6QSoQT4NWjLbzKPMxg5zpHSCz+DMbDJ+Ii53T/tO76jGztpTd7uQ==
   dependencies:
     "@posthog/types" "1.376.5"
-
-"@posthog/types@1.376.4":
-  version "1.376.4"
-  resolved "https://registry.yarnpkg.com/@posthog/types/-/types-1.376.4.tgz#a84df993a8f02d5c17c0af4f36d3f2208c3c4086"
-  integrity sha512-EoDEvA925lf6yxPpbP4wozlXgu4b9WEqxZlFBUDd4k2akP5R/RWyHpvQT8aYyfY6BtSLn8TnVwxPQOM4b90isA==
 
 "@posthog/types@1.376.5":
   version "1.376.5"
@@ -6185,11 +6173,11 @@ posthog-js@^1.257.1:
     web-vitals "^5.1.0"
 
 posthog-node@^5.6.0:
-  version "5.35.6"
-  resolved "https://registry.yarnpkg.com/posthog-node/-/posthog-node-5.35.6.tgz#b7fdc9043bc2f41c018f31b94b8628f65ebf20e8"
-  integrity sha512-LwoXnR89A0l75jvFrXjtsAs0BbpyCjnwY8YIUkZT91rt1YnIUfBYiLj7qoUYApdNgesgWQQHqLXxLYX59a6ZYw==
+  version "5.35.7"
+  resolved "https://registry.yarnpkg.com/posthog-node/-/posthog-node-5.35.7.tgz#2b875ebe3c15264ce2679a6cdf7c366c5bd4a5fa"
+  integrity sha512-UP6qXHN8bsVWZq3b5dURc1dZ2tEiumVi430IeOwSMx8ztqIQnmuI7bOm4jJ7HFVdrUOEw2DnNPIQY6IxD1XmwQ==
   dependencies:
-    "@posthog/core" "1.29.13"
+    "@posthog/core" "1.29.14"
 
 preact@^10.28.2:
   version "10.29.2"
