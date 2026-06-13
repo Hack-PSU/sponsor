@@ -1484,10 +1484,22 @@
   dependencies:
     "@posthog/types" "1.383.3"
 
+"@posthog/core@^1.32.3":
+  version "1.32.3"
+  resolved "https://registry.yarnpkg.com/@posthog/core/-/core-1.32.3.tgz#4ea8177e007c17ffee74def62e41e0f6951ad343"
+  integrity sha512-vwOEMfZvGv5XxNWV7p9I52NSmvFNMhyW2IHpIoUHW5jLkgUrknzJW1H/qxVGSIrNNVQkfsoaDFzDhJdg10pgrA==
+  dependencies:
+    "@posthog/types" "1.386.3"
+
 "@posthog/types@1.383.3":
   version "1.383.3"
   resolved "https://registry.yarnpkg.com/@posthog/types/-/types-1.383.3.tgz#d451a3ae9223ec06834d5024f32ef9fa6da4576f"
   integrity sha512-N4jtmLaJxzjQ/C0UHnF0igQPSwUqwScPDv9ePGjKCfDomIEUcO3+c6pBrjTp7woxuMQ49BmyM/pV4/SOBPpe0Q==
+
+"@posthog/types@1.386.3", "@posthog/types@^1.386.3":
+  version "1.386.3"
+  resolved "https://registry.yarnpkg.com/@posthog/types/-/types-1.386.3.tgz#2703a3b83a80c24524283c515334bdf407be9f9b"
+  integrity sha512-LqJoiQi2eyWn7rCUgnn+D+F3Efp6+04o72bjSX6kWHx0nFaYNC/nJuAIRliDTY/X7GPIUAaHAcSjbMI/9wfX1Q==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -3453,9 +3465,9 @@ dom-accessibility-api@^0.6.3:
   integrity sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==
 
 dompurify@^3.3.2:
-  version "3.4.8"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.4.8.tgz#6c54f8c207160e7f83fcb7f4fd05a82ac36b1cdc"
-  integrity sha512-yb1cEmaOum7wFvOCSQxyfgVlv5D47Rc30iZWoMpbDIWTnJ6grDDQyu2KFJzB2k7u0pMuJcQ1zphH//fFnw2tjQ==
+  version "3.4.10"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.4.10.tgz#96704295b4d8aeefcc8c7a90caa579b0ad69e46a"
+  integrity sha512-0xzNv0e7oYC6yyuOGZIABPM4qtg3QxLFniDNPP4ZP90wR8Yq3zgwpRbrNiT4N3IKqDbbYFEJLV+JWEs19aZ//w==
   optionalDependencies:
     "@types/trusted-types" "^2.0.7"
 
@@ -6059,12 +6071,12 @@ postcss@^8.4.47, postcss@^8.5.10, postcss@^8.5.6:
     source-map-js "^1.2.1"
 
 posthog-js@^1.257.1:
-  version "1.383.3"
-  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.383.3.tgz#0a35ed489e3d33446a011aa19051b9242a123206"
-  integrity sha512-caH+lSELdgqaS2uxmBiJT22/cr3epuMKSqBsO8QYQgORehokwdWB/Q4LIh3Dgyjy26B2yhprcAAqmuKMf4s3Nw==
+  version "1.386.6"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.386.6.tgz#9d2ef8de3f2eba9c237b8f71cb47911d7ab6339c"
+  integrity sha512-xRcbToRtU07Ojk+VaCCos6I/zD60sNKfWxdeZih0xbncgegIqLZJmBzi4HdkSkXrf14b6HhwMI/s2GxWha5ADQ==
   dependencies:
-    "@posthog/core" "1.30.14"
-    "@posthog/types" "1.383.3"
+    "@posthog/core" "^1.32.3"
+    "@posthog/types" "^1.386.3"
     core-js "^3.38.1"
     dompurify "^3.3.2"
     fflate "^0.4.8"
