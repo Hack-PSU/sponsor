@@ -1,9 +1,11 @@
 "use client";
 
+import {
+  useFirebase,
+} from "@hackpsu/react-sdk";
 import { useState, useEffect } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useFirebase } from "@/common/context";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";

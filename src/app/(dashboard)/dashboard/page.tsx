@@ -1,6 +1,14 @@
 "use client";
 
 import {
+  EventType,
+  useEventGetAll,
+  useFlagGetOne,
+  useHackathonGetForStatic,
+  useScanGetAll,
+  useUserGetAllResumes,
+} from "@hackpsu/react-sdk";
+import {
 	Card,
 	CardContent,
 	CardDescription,
@@ -21,27 +29,22 @@ import {
 	QrCode,
 } from "lucide-react";
 import Link from "next/link";
-import { useAllEvents, EventType } from "@/common/api/event";
-import { useActiveHackathonForStatic } from "@/common/api/hackathon";
-import { useAllScans } from "@/common/api/scan";
-import { useAllResumes } from "@/common/api/user";
-import { useFlagState } from "@/common/api/flag";
 import { toast } from "sonner";
 import { useState } from "react";
 
 export default function SponsorDashboard() {
-	const { data: hackathon } = useActiveHackathonForStatic();
+	const { data: hackathon } = useHackathonGetForStatic();
 	const {
 		data: scans,
 		isLoading,
 		error,
 		refetch,
 		isFetching,
-	} = useAllScans(hackathon?.id);
-	const { data: events } = useAllEvents(hackathon?.id);
+	} = useScanGetAll({ hackathonId: hackathon?.id });
+	const { data: events } = useEventGetAll({ hackathonId: hackathon?.id });
 	const { refetch: downloadResumes, isFetching: isDownloading } =
-		useAllResumes();
-	const { data: sponsorScannerFlag } = useFlagState("SponsorScanner");
+		useUserGetAllResumes();
+	const { data: sponsorScannerFlag } = useFlagGetOne("SponsorScanner");
 	const [downloadProgress, setDownloadProgress] = useState<
 		"idle" | "downloading" | "success" | "error"
 	>("idle");

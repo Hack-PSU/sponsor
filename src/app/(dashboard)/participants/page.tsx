@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  RegistrationEntity,
+  UserEntity,
+  useRegistrationGetAll,
+  useUserGetAll,
+  useUserGetResume,
+} from "@hackpsu/react-sdk";
 import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -39,11 +46,6 @@ import {
 	Car,
 	Shield,
 } from "lucide-react";
-import {
-	RegistrationEntity,
-	useAllRegistrations,
-} from "@/common/api/registration";
-import { UserEntity, useAllUsers, useUserResume } from "@/common/api/user";
 
 type Participant = UserEntity &
 	Omit<Partial<RegistrationEntity>, "id" | "userId">;
@@ -78,12 +80,12 @@ function ParticipantsDirectory() {
 		data: users,
 		isLoading: usersLoading,
 		isError: usersError,
-	} = useAllUsers();
+	} = useUserGetAll();
 	const {
 		data: registrations,
 		isLoading: regsLoading,
 		isError: regsError,
-	} = useAllRegistrations();
+	} = useRegistrationGetAll();
 
 	const [selectedUser, setSelectedUser] = React.useState<Participant | null>(
 		null
@@ -183,7 +185,7 @@ function ParticipantsDirectory() {
 		data: resumeBlob,
 		isLoading: isResumeLoading,
 		isError: isResumeError,
-	} = useUserResume(selectedUser?.id || "");
+	} = useUserGetResume(selectedUser?.id || "");
 	const [resumeUrl, setResumeUrl] = React.useState<string | null>(null);
 	React.useEffect(() => {
 		if (resumeBlob instanceof Blob) {

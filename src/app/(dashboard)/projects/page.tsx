@@ -1,5 +1,8 @@
 "use client";
 
+import {
+  useProjectGetAll,
+} from "@hackpsu/react-sdk";
 import * as React from "react";
 import {
 	QueryClient,
@@ -12,12 +15,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "@/components/ui/label";
 import { MultiSelect, type OptionType } from "@/components/ui/multi-select";
 import { AlertTriangle, Trophy, Lightbulb } from "lucide-react";
-import { useAllProjects } from "@/common/api/judging";
 
 // --- MAIN COMPONENT ---
 
 function ProjectsDirectory() {
-	const { data: projects, isLoading, isError } = useAllProjects();
+	const { data: projects, isLoading, isError } = useProjectGetAll();
 	const [selectedChallenges, setSelectedChallenges] = React.useState<string[]>(
 		[]
 	);

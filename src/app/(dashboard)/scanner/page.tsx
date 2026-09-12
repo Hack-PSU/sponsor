@@ -1,11 +1,15 @@
 "use client";
 
+import {
+  useEventCheckInEvent,
+  useEventGetAll,
+  useFirebase,
+  useHackathonGetForStatic,
+  useUserGetAll,
+} from "@hackpsu/react-sdk";
 import type React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import jsQR from "jsqr";
-import { useFirebase } from "@/common/context";
-import { useAllEvents, useCheckInEvent } from "@/common/api/event";
-import { useActiveHackathonForStatic } from "@/common/api/hackathon/hook";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -25,7 +29,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { Toaster, toast } from "sonner";
 import { Building2, CheckCircle, Camera, CameraOff } from "lucide-react";
-import { useAllUsers } from "@/common/api/user";
 
 const SponsorScannerPage: React.FC = () => {
 	const videoRef = useRef<HTMLVideoElement>(null);
@@ -44,7 +47,7 @@ const SponsorScannerPage: React.FC = () => {
 		data: eventsData,
 		isLoading: eventsLoading,
 		isError: eventsError,
-	} = useAllEvents();
+	} = useEventGetAll();
 
 	// Filter events to only include those with "(Sponsor)" in the name
 	interface Event {
@@ -57,9 +60,9 @@ const SponsorScannerPage: React.FC = () => {
 	);
 
 	
-	const { data: hackathonData } = useActiveHackathonForStatic();
-	const { mutate: checkInMutate } = useCheckInEvent();
-	const { data: userData } = useAllUsers();
+	const { data: hackathonData } = useHackathonGetForStatic();
+	const { mutate: checkInMutate } = useEventCheckInEvent();
+	const { data: userData } = useUserGetAll();
 
 	// Default event selection - prioritize sponsor/booth events
 	useEffect(() => {
