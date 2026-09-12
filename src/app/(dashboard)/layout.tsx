@@ -1,4 +1,7 @@
-import { AuthGuard, Role } from "@/common/context/AuthGuard";
+import {
+  AuthGuard,
+  Role,
+} from "@hackpsu/react-sdk";
 import { DashboardNavbar } from "@/components/dashboard-navbar";
 
 export default function DashboardLayout({
@@ -9,12 +12,7 @@ export default function DashboardLayout({
 	return (
 		<>
 			{" "}
-			<AuthGuard
-				config={{
-					minimumRole: Role.TECH,
-					authServerUrl: process.env.NEXT_PUBLIC_AUTH_SERVICE_URL,
-				}}
-			>
+			<AuthGuard minimumRole={Role.TECH}>
 				<DashboardNavbar />
 				{children}
 			</AuthGuard>{" "}

@@ -1,5 +1,8 @@
 "use client";
 
+import {
+  useFirebase,
+} from "@hackpsu/react-sdk";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -16,7 +19,6 @@ import {
 	X,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useFirebase } from "@/common/context/FirebaseProvider";
 
 const navigationItems = [
 	{
