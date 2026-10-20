@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
+import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,6 +48,15 @@ export const metadata: Metadata = {
 		telephone: false,
 	},
 	metadataBase: new URL("https://sponsor.hackpsu.org"),
+	manifest: "/manifest.json",
+	appleWebApp: {
+		capable: true,
+		statusBarStyle: "default",
+		title: "HackPSU Sponsor",
+	},
+	icons: {
+		apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+	},
 	alternates: {
 		canonical: "/",
 	},
@@ -118,6 +128,7 @@ export default function RootLayout({
 					{children}
 				</HackPSUProvider>
 				<Toaster richColors />
+				<PWAInstallPrompt />
 				<Analytics />
 			</body>
 		</html>
