@@ -2305,13 +2305,14 @@
   resolved "https://registry.yarnpkg.com/@pkgr/core/-/core-0.3.6.tgz#3569708bd4be4d8870ba32bf1c456dac81600d97"
   integrity sha512-SEeaJLb3qBNF/OaXnaR1NmmBbFYk1zC0ZH/52fATcRPLFg/p791YrcyFFy44Bo9sLaGuSuLp5Q6axbb/O+v/RA==
 
-"@posthog/browser-common@^0.9.2":
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/@posthog/browser-common/-/browser-common-0.9.2.tgz#d900d20b6db4edf43a6e31c8dbcdd510deb1fe76"
-  integrity sha512-kD0ayI59d+DVcqEFLFA1TU1B03PFNV/Hy18Yv1EOB24Px0CDDowkTR3pBE2j8MYeqtp+4XOoVTXrcJaJUp6zrg==
+"@posthog/browser-common@^0.10.2":
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/@posthog/browser-common/-/browser-common-0.10.2.tgz#e26ab8e768c638b18d9a32ac63fb1e5a19bf3b8b"
+  integrity sha512-ieHSMmY4xG+HfkMTrT9yZoG0NMBWyA4aXMFPCuOOV+xRe706+zoPuwqmNHXv7LGXfi6CvOv4qksEoPNWfP359Q==
   dependencies:
-    "@posthog/core" "^1.57.0"
-    "@posthog/types" "^1.415.1"
+    "@posthog/core" "^1.61.2"
+    "@posthog/types" "^1.418.0"
+    preact "^10.29.3"
 
 "@posthog/core@^1.55.2":
   version "1.56.1"
@@ -2320,22 +2321,22 @@
   dependencies:
     "@posthog/types" "^1.413.0"
 
-"@posthog/core@^1.57.0", "@posthog/core@^1.57.1":
-  version "1.57.1"
-  resolved "https://registry.yarnpkg.com/@posthog/core/-/core-1.57.1.tgz#05098540385477301585d45b4670f3b3c2675291"
-  integrity sha512-0RQvInX+TlsETdwCnmpdu9Ji2BSqe/NyxxxiEHjsp6iA3W3UtyJ2yUYyZnadjYMArP3LvudEwhN1oSQYMw2pzQ==
+"@posthog/core@^1.61.2":
+  version "1.62.0"
+  resolved "https://registry.yarnpkg.com/@posthog/core/-/core-1.62.0.tgz#5a2acaac901c8360bdda1e73d5703d4c07953aac"
+  integrity sha512-KjNwGC7s0141wnWWHubNMdg1lOhZjqKRw2OTNstuzdVvNDfvv2RbFJQSSvvABmbCmTXwlMpdnbb/M/aAigDnNQ==
   dependencies:
-    "@posthog/types" "^1.415.1"
+    "@posthog/types" "^1.418.0"
 
 "@posthog/types@^1.413.0":
   version "1.413.0"
   resolved "https://registry.yarnpkg.com/@posthog/types/-/types-1.413.0.tgz#5ba7ea6162685567c254e036130e5785f794bd53"
   integrity sha512-tYAVzNojWckuG/wxBB0fwE70sFruQQq4xbhkci7eH2ARU3mMfUTkvpN1HwBMpm0AtbxidLiH0IFvagmdJ8opPw==
 
-"@posthog/types@^1.415.1":
-  version "1.415.1"
-  resolved "https://registry.yarnpkg.com/@posthog/types/-/types-1.415.1.tgz#57373d3ca7aae68f25e830564ef661e69ec76c96"
-  integrity sha512-7Qs2wcqipl8KcFpIkIKE1Wcj1djX4dEB3cfq907HrNpKK7/xKh3U4N4bkOD6h9+8j3SxWWrj9JNpE8CZXsE35w==
+"@posthog/types@^1.418.0":
+  version "1.418.0"
+  resolved "https://registry.yarnpkg.com/@posthog/types/-/types-1.418.0.tgz#5dabde5adedc147a96565ffb68ea674625e34a99"
+  integrity sha512-WqDXUWH1R8OilBp2PfDpQIRZSCs3QyOnw7H3YK7lvZLCMIsOqSZAKJrrqYWt4f7FvnVCACRuNGCC0HKh3J/HWw==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -4393,9 +4394,9 @@ core-js-compat@^3.48.0:
     browserslist "^4.29.3"
 
 core-js@^3.49.0:
-  version "3.50.0"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.50.0.tgz#a18646fcb0097650189b4504c803e887bcae4c0a"
-  integrity sha512-BRWgOLKkFeCgRudR6zrs8p9XJZcE14grzKMMssoYrk6krtuEZ7MTKPIY5RzOnqsEKIR9kst7wNzphttraT+Yqw==
+  version "3.51.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.51.0.tgz#9a7b197159ab83173b50efbe0c4846bec94b3abb"
+  integrity sha512-7bDKx/5jm5MxzsXxc93g6Z2+4ZsuT/MddrfRmTDJNAkWsYWHU8EVNEsBiIEWnMAMCHMmRfUEjkuo3jeNBOIHRw==
 
 cross-spawn@^7.0.3, cross-spawn@^7.0.6:
   version "7.0.6"
@@ -4672,9 +4673,9 @@ dom-accessibility-api@^0.6.3:
   integrity sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==
 
 dompurify@^3.4.13:
-  version "3.4.16"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.4.16.tgz#c51b3709ea15ee9abb07e804f2ef30ea9b953128"
-  integrity sha512-sqo+pNp3qRhCIpbgRi1y8Tgk27Bo2Ry7w0dC1NBeNTdZChWjz9Xb/KOoZbRP/R6pQZ80Qw8YhXw13hWWBbMRnQ==
+  version "3.4.17"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.4.17.tgz#074bbb24eaa419535ac19ffe7f663104b0e1543d"
+  integrity sha512-B/pSlYVHQ58kqISD/yDjuJ1yfzI34m1gF4lAod2bwSRhiN4K5Cl3H8Af7hqB2PmTL911tdEudnnXn5FnhRoz0w==
   optionalDependencies:
     "@types/trusted-types" "^2.0.7"
 
@@ -7628,13 +7629,13 @@ postcss@^8.5.16, postcss@^8.5.6:
     source-map-js "^1.2.2"
 
 posthog-js@^1.257.1:
-  version "1.438.2"
-  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.438.2.tgz#da2e164b4cc701568ec908b00a08cab0b9a57496"
-  integrity sha512-4AbEQ0lJp4WupgA+y5fiBnepSril+qA1rAYuFy9oKQ0xd8yg19p5XNKDgZW/nGwJF2KVx/joy4vKWhyuJNoCVw==
+  version "1.443.0"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.443.0.tgz#9694a0e63c04d66826353977494443080ca7339f"
+  integrity sha512-PpfvtZ4cj5uDhXrILlfoV8/Qva+ZBntp75Px+HR7kcKHMSdHIsBVpj5rdMLLgH94APsoP13ZMz8bXO4kwrrZ+Q==
   dependencies:
-    "@posthog/browser-common" "^0.9.2"
-    "@posthog/core" "^1.57.1"
-    "@posthog/types" "^1.415.1"
+    "@posthog/browser-common" "^0.10.2"
+    "@posthog/core" "^1.61.2"
+    "@posthog/types" "^1.418.0"
     core-js "^3.49.0"
     dompurify "^3.4.13"
     fflate "^0.4.8"
